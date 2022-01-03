@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cowboy Bebop</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <section id="menu">
+      <h1>
+        Cowboy Bebop
+        <p>Help Spike destroy meteorites and clear the way for a bounty hunt</p>
+      </h1>
+      <button>Ok!</button>
+    </section>
+    <main id="board">
+      <div class="rocks"></div>
+      <div id="jet"></div>
+    </main>
+    <footer class="spyke">
+      <img src="./assets/spyke.png" alt="Spyke" />
+      <p id="phrase">See you space cowboy</p>
+    </footer>
+    <p id="score">
+      Obstacles destroyed:
+      <span id="points">0</span>
+    </p>
+    <audio looping id="soundtrack" type="audio/mp3">
+      <source src="./assets/soundtrack.mp3" />
+    </audio>
+
+    <script src="./main.js" defer></script>
+  </body>
+</html>
