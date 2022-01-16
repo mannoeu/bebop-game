@@ -8,17 +8,26 @@
   --primary: rgb(27, 37, 95);
 }
 
+@keyframes moveSpace {
+  0% {
+    background-position: 50% 100%;
+  }
+  100% {
+    background-position: 50% 1000%;
+  }
+}
+
 body {
   width: 100%;
   min-height: 100vh;
   height: 100%;
-  background: url("./assets/bg.png");
-  background-size: cover;
-  background-repeat: no-repeat;
+  background: url("./assets/bg.webp");
+  background-size: 30%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
+  animation: moveSpace 70s infinite linear;
 }
 
 section#menu {
@@ -140,23 +149,24 @@ footer::before {
 }
 
 #board {
-  margin-top: 40px;
+  margin-top: 20px;
   width: 504px;
   flex: none;
   height: 460px;
   border: 2px solid var(--primary);
-  background: url("./assets/bg.png");
-  background-size: cover;
-  background-repeat: no-repeat;
+  background: url("./assets/bg.webp");
+  background-size: 100%;
+  background-repeat: repeat;
   position: relative;
   overflow: hidden;
+  animation: moveSpace 30s infinite linear;
 }
 
 #jet {
   position: absolute;
   width: 40px;
   height: 40px;
-  background: url("./assets/nave.png");
+  background: url("./assets/nave.webp");
   background-size: contain;
   background-repeat: no-repeat;
   left: 50%;
@@ -170,7 +180,7 @@ footer::before {
   left: 40px;
   width: 15px;
   height: 15px;
-  background: url("./assets/fireshot.png");
+  background: url("./assets/fireshot.webp");
   background-size: contain;
   background-repeat: no-repeat;
 }
@@ -180,7 +190,7 @@ footer::before {
   top: 0;
   width: 30px;
   height: 30px;
-  background: url("./assets/rock.png");
+  background: url("./assets/rock.webp");
   background-size: contain;
   background-repeat: no-repeat;
   animation: rotate 3s infinite linear;

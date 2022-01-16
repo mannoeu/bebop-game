@@ -7,8 +7,9 @@ var image = document.querySelector("footer > img");
 var audio = document.querySelector("audio#soundtrack");
 var menu = document.querySelector("section#menu");
 var startButton = menu.querySelector("button");
+var gameOver = false;
 
-var OBSTACLE_DOWN_VELOCITY = 300;
+var OBSTACLE_DOWN_VELOCITY = 400;
 var OBSTACLE_CREATE_VELOCITY = 1000;
 const LOOPING_IMAGE = 1.2 * 60 * 1000;
 const LOOPING_TEXT = 0.4 * 60 * 1000;
@@ -19,12 +20,29 @@ const getProperty = ({ element, property }) => {
 
 const TEXTS = {
   spyke: [
-    "i'm a bounty hunter",
-    "come on jet let's hunt a bounty",
-    "goodnight...julia...",
+    "Im a bounty hunter",
+    "Come on jet let's hunt a bounty",
+    "Goodnight...julia...",
+    "Do we really need to take her?",
+    "This one came close!",
+    "Whatever happens happens",
   ],
-  faye: ["ann??", "I keep 80% and you 20%", "let's go boys"],
-  jet: ["damn spyke!", "dinner is ready", "really?"],
+  faye: [
+    "Ann??",
+    "I keep 80% and you 20%",
+    "Let's go boys",
+    "Someone needs to hold this guy",
+    "Oh, fuck you!",
+    "Mochi mochi?",
+  ],
+  jet: [
+    "Damn spyke!",
+    "Dinner is ready",
+    "Really?",
+    "My ship, my rules",
+    "Hehehe, that was good, spyke!",
+    "2,000,000.00...spyke...faye...",
+  ],
 };
 
 const CONTROLLER = {
@@ -46,6 +64,10 @@ window.addEventListener("keydown", ({ key, keyCode }) => {
     element: jet,
     property: "left",
   });
+
+  if (gameOver) {
+    return;
+  }
 
   if ((key === "ArrowLeft" || key === "Left") && left > 0) {
     CONTROLLER.jet.move(left - 20 + "px");
@@ -74,6 +96,11 @@ window.addEventListener("keydown", ({ key, keyCode }) => {
           rock.parentElement.removeChild(rock);
           fireshot.parentElement.removeChild(fireshot);
           score.innerHTML = parseInt(score.innerHTML) + 1;
+        } else if (
+          board.getBoundingClientRect().top >=
+          fireshot.getBoundingClientRect().top
+        ) {
+          fireshot.parentElement.removeChild(fireshot);
         }
       }
 
@@ -98,7 +125,22 @@ function updateCharacter() {
   text.innerHTML = actualTexts[Math.floor(Math.random() * actualTexts.length)];
 }
 
+function reset() {
+  gameOver = false;
+  score.innerHTML = "0";
+  let fireshots = document.querySelectorAll(".fireshot");
+  let rocks = document.querySelectorAll(".rocks");
+
+  for (rock of rocks) {
+    rock.parentElement.removeChild(rock);
+  }
+  for (fireshot of fireshots) {
+    fireshot.parentElement.removeChild(fireshot);
+  }
+}
+
 function start() {
+  gameOver = false;
   menu.parentElement.removeChild(menu);
 
   var generateObstacle = setInterval(() => {
@@ -126,9 +168,18 @@ function start() {
         });
 
         if (rockTop > 430) {
-          alert("Game Over!");
-          clearInterval(generateObstacle);
-          clearInterval(moveObstacles);
+          gameOver = true;
+          if (
+            confirm(
+              `Game Over! Your score is ${score.innerHTML}. Want to try again?`
+            )
+          ) {
+            reset();
+            start();
+          } else {
+            clearInterval(generateObstacle);
+            clearInterval(moveObstacles);
+          }
         }
 
         rock.style.top = rockTop + 20 + "px";
@@ -146,7 +197,7 @@ function start() {
     let position = Math.floor(Math.random() * Object.keys(TEXTS).length);
     let key = Object.keys(TEXTS).find((item, index) => index === position);
 
-    image.src = "./assets/" + key + ".png";
+    image.src = "./assets/" + key + ".webp";
     image.alt = key;
     footer.classList.add(key);
 
